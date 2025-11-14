@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/integradora/static/css/main.8e5e8afd.css",
+    "main.js": "/integradora/static/js/main.723c503b.js",
+    "index.html": "/integradora/index.html",
+    "main.8e5e8afd.css.map": "/integradora/static/css/main.8e5e8afd.css.map",
+    "main.723c503b.js.map": "/integradora/static/js/main.723c503b.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.8e5e8afd.css",
+    "static/js/main.723c503b.js"
+  ]
+}
