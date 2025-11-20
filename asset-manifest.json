@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/INTEGRADORA-NOVIEMBRE/static/css/main.2d397b0e.css",
-    "main.js": "/INTEGRADORA-NOVIEMBRE/static/js/main.3ac47bf0.js",
+    "main.css": "/INTEGRADORA-NOVIEMBRE/static/css/main.8a96b567.css",
+    "main.js": "/INTEGRADORA-NOVIEMBRE/static/js/main.13a42f52.js",
     "index.html": "/INTEGRADORA-NOVIEMBRE/index.html",
-    "main.2d397b0e.css.map": "/INTEGRADORA-NOVIEMBRE/static/css/main.2d397b0e.css.map",
-    "main.3ac47bf0.js.map": "/INTEGRADORA-NOVIEMBRE/static/js/main.3ac47bf0.js.map"
+    "main.8a96b567.css.map": "/INTEGRADORA-NOVIEMBRE/static/css/main.8a96b567.css.map",
+    "main.13a42f52.js.map": "/INTEGRADORA-NOVIEMBRE/static/js/main.13a42f52.js.map"
   },
   "entrypoints": [
-    "static/css/main.2d397b0e.css",
-    "static/js/main.3ac47bf0.js"
+    "static/css/main.8a96b567.css",
+    "static/js/main.13a42f52.js"
   ]
 }
