@@ -8,6 +8,7 @@ import './styles/cart.css';
 import './styles/dark-mode.css';
 import './styles/modal.css';
 import './styles/flash-deals.css';
+import './styles/product-gallery.css';
 
 function App() {
   return (

@@ -1,11 +1,11 @@
-import React, { useState, useContext } from 'react';
-import { CartContext } from '../../context/CartContext';
-import { AuthContext } from '../../context/AuthContext';
+import React, { useState } from 'react';
+import { useCart } from '../../context/CartContext';
+import { useAuth } from '../../context/AuthContext';
 import './CheckoutModal.css';
 
 const CheckoutModal = ({ isOpen, onClose }) => {
-  const { cartItems, getTotalPrice, clearCart } = useContext(CartContext);
-  const { user } = useContext(AuthContext);
+  const { items: cartItems, getTotalPrice, clearCart } = useCart();
+  const { user } = useAuth();
 
   const [formData, setFormData] = useState({
     fullName: user?.name || '',
@@ -32,7 +32,6 @@ const CheckoutModal = ({ isOpen, onClose }) => {
       ...prev,
       [name]: value
     }));
-    // Limpiar error del campo cuando el usuario escribe
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
@@ -44,12 +43,10 @@ const CheckoutModal = ({ isOpen, onClose }) => {
   const validateForm = () => {
     const newErrors = {};
 
-    // Validar nombre
     if (!formData.fullName.trim()) {
       newErrors.fullName = 'El nombre completo es requerido';
     }
 
-    // Validar email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!formData.email.trim()) {
       newErrors.email = 'El email es requerido';
@@ -57,7 +54,6 @@ const CheckoutModal = ({ isOpen, onClose }) => {
       newErrors.email = 'Email inválido';
     }
 
-    // Validar teléfono
     const phoneRegex = /^\d{10}$/;
     if (!formData.phone.trim()) {
       newErrors.phone = 'El teléfono es requerido';
@@ -65,17 +61,14 @@ const CheckoutModal = ({ isOpen, onClose }) => {
       newErrors.phone = 'Teléfono debe tener 10 dígitos';
     }
 
-    // Validar dirección
     if (!formData.address.trim()) {
       newErrors.address = 'La dirección es requerida';
     }
 
-    // Validar ciudad
     if (!formData.city.trim()) {
       newErrors.city = 'La ciudad es requerida';
     }
 
-    // Validar código postal
     const postalCodeRegex = /^\d{5}$/;
     if (!formData.postalCode.trim()) {
       newErrors.postalCode = 'El código postal es requerido';
@@ -83,7 +76,6 @@ const CheckoutModal = ({ isOpen, onClose }) => {
       newErrors.postalCode = 'Código postal debe tener 5 dígitos';
     }
 
-    // Validar datos de tarjeta si el método de pago es tarjeta
     if (formData.paymentMethod === 'card') {
       const cardRegex = /^\d{16}$/;
       if (!formData.cardNumber.trim()) {
@@ -130,17 +122,14 @@ const CheckoutModal = ({ isOpen, onClose }) => {
 
     setIsProcessing(true);
 
-    // Simular procesamiento de pago
     setTimeout(() => {
       const orderNum = generateOrderNumber();
       setOrderNumber(orderNum);
       setOrderCompleted(true);
       setIsProcessing(false);
       
-      // Limpiar carrito después de la compra
       setTimeout(() => {
         clearCart();
-        // Enviar email de confirmación (simulado)
         console.log('Email de confirmación enviado a:', formData.email);
       }, 2000);
     }, 2500);
@@ -203,7 +192,6 @@ const CheckoutModal = ({ isOpen, onClose }) => {
         </div>
 
         <div className="checkout-content">
-          {/* Resumen del pedido */}
           <div className="order-summary-box">
             <h3>📦 Resumen del Pedido</h3>
             <div className="order-items">
@@ -224,9 +212,7 @@ const CheckoutModal = ({ isOpen, onClose }) => {
             </div>
           </div>
 
-          {/* Formulario */}
           <form onSubmit={handleSubmit} className="checkout-form">
-            {/* Información de contacto */}
             <div className="form-section">
               <h3>📋 Información de Contacto</h3>
               
@@ -276,7 +262,6 @@ const CheckoutModal = ({ isOpen, onClose }) => {
               </div>
             </div>
 
-            {/* Dirección de envío */}
             <div className="form-section">
               <h3>📍 Dirección de Envío</h3>
               
@@ -326,7 +311,6 @@ const CheckoutModal = ({ isOpen, onClose }) => {
               </div>
             </div>
 
-            {/* Método de pago */}
             <div className="form-section">
               <h3>💰 Método de Pago</h3>
               

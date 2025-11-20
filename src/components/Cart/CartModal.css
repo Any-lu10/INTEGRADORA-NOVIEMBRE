@@ -177,9 +177,14 @@
   transition: all 0.2s;
 }
 
-.cart-item-quantity button:hover {
+.cart-item-quantity button:hover:not(:disabled) {
   background: #2d5016;
   color: white;
+}
+
+.cart-item-quantity button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
 }
 
 .cart-item-quantity button:active {
