@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación - Integradora Shop</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c2c 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        nav {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 3px solid #2d5016;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        nav button {
+            text-decoration: none;
+            color: #2d5016;
+            padding: 12px 25px;
+            background: white;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid #2d5016;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        nav button:hover {
+            background: #2d5016;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(45,80,22,0.3);
+        }
+
+        nav button.active {
+            background: #2d5016;
+            color: white;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        section {
+            display: none;
+            margin-bottom: 50px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #2d5016;
+            animation: fadeIn 0.5s ease;
+        }
+
+        section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            color: #2d5016;
+            font-size: 2em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #2d5016;
+        }
+
+        h3 {
+            color: #4a7c2c;
+            font-size: 1.5em;
+            margin: 25px 0 15px 0;
+        }
+
+        h4 {
+            color: #2d5016;
+            font-size: 1.2em;
+            margin: 20px 0 10px 0;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+            color: #333;
+        }
+
+        .timeline {
+            margin: 20px 0;
+        }
+
+        .timeline-item {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            border-left: 4px solid #2d5016;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .timeline-item h4 {
+            margin-top: 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c2c 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            margin: 10px 10px 10px 0;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(45,80,22,0.3);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .btn-drive {
+            background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+        }
+
+        /* NUEVO: Botón para subir */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c2c 100%);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(45,80,22,0.4);
+            transition: all 0.3s ease;
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .scroll-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(45,80,22,0.6);
+        }
+
+        /* NUEVO: Alerta para enlaces de Drive */
+        .drive-link-box {
+            background: #e3f2fd;
+            border: 3px dashed #1976d2;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .drive-link-box::before {
+            content: "📌 ENLACE A ACTIVIDADES DE GOOGLE DRIVE";
+            display: block;
+            color: #1976d2;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .drive-link-placeholder {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            color: #666;
+            border: 2px solid #1976d2;
+            text-align: center;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .feature-card h4 {
+            color: #2d5016;
+            margin-bottom: 10px;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+
+        .stat-box {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            min-width: 150px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #2d5016;
+        }
+
+        .stat-label {
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .comparison-table {
+            width: 100%;
+            margin: 20px 0;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .comparison-table th {
+            background: #2d5016;
+            color: white;
+            font-weight: 600;
+        }
+
+        .comparison-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        footer {
+            background: #2d5016;
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+
+        footer a {
+            color: #a8d08d;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .checkmark {
+            color: #4a7c2c;
+            font-weight: bold;
+        }
+
+        .instruction-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .instruction-box h4 {
+            color: #856404;
+            margin-top: 0;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            nav ul {
+                flex-direction: column;
+            }
+
+            nav button {
+                display: block;
+                text-align: center;
+                width: 100%;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            section {
+                padding: 20px;
+            }
+
+            .scroll-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 Documentación del Proyecto</h1>
+            <p>INTEGRADORA SHOP - Curso de Desarrollo Web</p>
+        </header>
+
+        <nav id="main-nav">
+            <ul>
+                <li><button onclick="showSection('actividades')" id="btn-actividades">📋 Actividades Realizadas</button></li>
+                <li><button onclick="showSection('sistema')" id="btn-sistema">🛒 Sistema Implementado</button></li>
+                <li><button onclick="showSection('codigo')" id="btn-codigo">💻 Código Fuente</button></li>
+                <li><button onclick="showSection('modificaciones')" id="btn-modificaciones">🔧 Modificaciones</button></li>
+            </ul>
+        </nav>
+
+        <div class="content">
+            <!-- SECCIÓN 1: ACTIVIDADES REALIZADAS -->
+            <section id="actividades" class="active">
+                <h2>Actividades Realizadas en el Curso</h2>
+                
+                <h3>Introducción al Proyecto</h3>
+                <p><strong>Proyecto:</strong> INTEGRADORA SHOP</p>
+                <p><strong>Tipo:</strong> Tienda en línea (E-commerce)</p>
+                <p><strong>Categorías:</strong> 3 tiendas unificadas</p>
+                <ul style="margin-left: 40px; margin-bottom: 20px;">
+                    <li>Artículos de Natación (Swim Gear Shop)</li>
+                    <li>Artículos de Oficina (Design Office Store)</li>
+                    <li>Regalos Personalizados (GlowUp)</li>
+                </ul>
+                <p><strong>Tecnología:</strong> React 19.1.1 con Context API, deployment en GitHub Pages</p>
+                <p><strong>Metodología:</strong> SCRUM con 4-5 sprints</p>
+
+                <div class="stats">
+                    <div class="stat-box">
+                        <div class="stat-number">8</div>
+                        <div class="stat-label">Tareas Completadas</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">5</div>
+                        <div class="stat-label">Sprints Ejecutados</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">100</div>
+                        <div class="stat-label">Puntos Completados</div>
+                    </div>
+                </div>
+
+                <h3>Evolución del Proyecto</h3>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h4>TAREA 1-2: Planificación Inicial</h4>
+                        <p>Creación del primer Product Backlog (8 PBIs, 65 puntos)</p>
+                        <p>✔Desarro✔llo del primer código en React</p>
+                        <p>✔Repositorio inicial creado</p>
+                        <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #e0e0e0;">
+                            <p style="font-size: 0.9em; color: #666; margin-bottom: 10px;">📎 Documentos de esta tarea:</p>
+                            <a href="https://docs.google.com/document/d/1__IvxYAA5HCilOxcrPGC-8uJixxGR5I5/edit?usp=sharing&ouid=101761495769293596247&rtpof=true&sd=true" class="btn btn-drive" target="_blank" style="font-size: 0.9em; padding: 10px 20px;">📄 Ver Tarea 1</a>
+                            <a href="https://docs.google.com/document/d/1uWYKZrtrcH9dH3R7089YJmLBPS6X7cLq/edit?usp=sharing&ouid=101761495769293596247&rtpof=true&sd=true" class="btn btn-drive" target="_blank" style="font-size: 0.9em; padding: 10px 20px;">📄 Ver Tarea 2</a>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4>TAREA 3: Calendarización de Sprints</h4>
+                        <p>✔Planificación de 4 sprints (8 semanas)</p>
+                        <p>✔Sprint Schedule completo del proyecto</p>
+                        <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #e0e0e0;">
+                            <p style="font-size: 0.9em; color: #666; margin-bottom: 10px;">📎 Documentos de esta tarea:</p>
+                            <a href="https://docs.google.com/document/d/1Pu3l-7ZW9DKUdlVCfHZSUeAWNQFi-Jq7/edit?usp=sharing&ouid=101761495769293596247&rtpof=true&sd=true" class="btn btn-drive" target="_blank" style="font-size: 0.9em; padding: 10px 20px;">📄 Ver Tarea 3</a>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4>TAREA 4: Roles y Ajustes</h4>
+                        <p>✔Definición de roles SCRUM (Ana: Desarrollador, Luis: SM, María: PO)</p>
+                        <p>✔Calendario de reuniones (lunes, miércoles, viernes)</p>
+                        <p>✔Backlog ajustado a 71 puntos (agregado dark mode y ofertas flash)</p>
+                        <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #e0e0e0;">
+                            <p style="font-size: 0.9em; color: #666; margin-bottom: 10px;">📎 Documentos de esta tarea:</p>
+                            <a href="https://docs.google.com/document/d/1pwHuteTEurAiDE8vY8fOsaONWJCu58FO/edit?usp=sharing&ouid=101761495769293596247&rtpof=true&sd=true" class="btn btn-drive" target="_blank" style="font-size: 0.9em; padding: 10px 20px;">📄 Ver Tarea 4</a>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4>TAREA 5-6: Desarrollo Sprints 2-3</h4>
+                        <p>✔Ejecución de Sprint 2 y 3</p>
+                        <p>✔Documentación de reuniones e impedimentos resueltos</p>
+                        <p>✔Backlog actualizado a 84 puntos</p>
+                        <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #e0e0e0;">
+                            <p style="font-size: 0.9em; color: #666; margin-bottom: 10px;">📎 Documentos de esta tarea:</p>
+                            <a href="https://docs.google.com/document/d/1llRKo5lRbNRK_Xs_y_itcEkWBrPvLw2w/edit?usp=sharing&ouid=101761495769293596247&rtpof=true&sd=true" class="btn btn-drive" target="_blank" style="font-size: 0.9em; padding: 10px 20px;">📄 Ver Tarea 5</a>
+                            <a href="https://docs.google.com/document/d/1Llqtw1aBf_ZtfqY7q8NHOBNyVE3ihqiS/edit?usp=sharing&ouid=101761495769293596247&rtpof=true&sd=true" class="btn btn-drive" target="_blank" style="font-size: 0.9em; padding: 10px 20px;">📄 Ver Tarea 6</a>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4>TAREA 7: Rediseño Completo 🎨</h4>
+                        <p><strong>CAMBIO MAYOR DEL PROYECTO:</strong></p>
+                        <p>Rebrand completo: Cambio de nombres en inglés a "INTEGRADORA SHOP" en español</p>
+                        <p>✔Rediseño visual: Nueva paleta de colores verde corporativo (#2d5016)</p>
+                        <p>✔Interfaz moderna: Diseño completamente renovado</p>
+                        <p>✔Nuevo repositorio: https://github.com/Any-lu10/INTEGRADORA-NOVIEMBRE</p>
+                        <p>✔Ejecución completa: 4 sprints con 100 puntos completados al 100%</p>
+                        <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #e0e0e0;">
+                            <p style="font-size: 0.9em; color: #666; margin-bottom: 10px;">📎 Documentos de esta tarea:</p>
+                            <a href="https://docs.google.com/document/d/1IYHQevsTAWexF6oE_ajjUzGvJPcEwVC8/edit?usp=sharing&ouid=101761495769293596247&rtpof=true&sd=true" class="btn btn-drive" target="_blank" style="font-size: 0.9em; padding: 10px 20px;">📄 Ver Tarea 7</a>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4>TAREA 8-9: Revisiones Finales</h4>
+                        <p>✔Reunión de revisión con propuestas de modificaciones</p>
+                        <p>✔Sprint 5 de correcciones (bugs en carrito, validación de checkout, responsive)</p>
+                        <p>✔Producto final optimizado y funcional</p>
+                        <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #e0e0e0;">
+                            <p style="font-size: 0.9em; color: #666; margin-bottom: 10px;">📎 Documentos de esta tarea:</p>
+                            <a href="https://docs.google.com/document/d/1T-ckrIDZ3AzAoOqbioOMpWEdEAcOzQFr/edit?usp=sharing&ouid=101761495769293596247&rtpof=true&sd=true" class="btn btn-drive" target="_blank" style="font-size: 0.9em; padding: 10px 20px;">📄 Ver Tarea 8</a>
+                            <a href="https://docs.google.com/document/d/1EY4SLRIEJLKNapSgDd5KcX9jxC8AGjS0/edit?usp=sharing&ouid=101761495769293596247&rtpof=true&sd=true" class="btn btn-drive" target="_blank" style="font-size: 0.9em; padding: 10px 20px;">📄 Ver Tarea 9</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!--ENLACE DE GOOGLE DRIVE #1 -->
+                <div class="drive-link-box">
+                    <div class="instruction-box">
+                        <h4>DOCUMENTO INTEGRADOR:</h4>
+                        <p><strong>1.</strong> A continuación se presenta el link al documento "Producto integrador. El final del proceso", donde explico de manera general y sencilla lo que se hizo en cada actividad a lo largo del curso.</p>
+                        <p><strong>2.</strong> También puedes checar por separado actividad por actividad en la sección "📋 Actividades Realizadas en el Curso"</p>
+                    </div>
+                    <a href="https://docs.google.com/document/d/14FyQRzq5Xp_5ciNmmlRS81rZwB99tkeo/edit?usp=sharing&ouid=101761495769293596247&rtpof=true&sd=true" class="btn btn-drive" target="_blank">📄 Ver Documento Completo de Actividades</a>
+                </div>
+            </section>
+
+            <!-- SECCIÓN 2: SISTEMA IMPLEMENTADO -->
+            <section id="sistema">
+                <h2>🛒 Sistema Implementado</h2>
+                
+                <h3>Descripción del Proyecto</h3>
+                <p><strong>INTEGRADORA SHOP</strong> es una plataforma de e-commerce moderna que unifica tres líneas de negocio en un solo sitio web profesional. El sistema permite a los usuarios explorar y comprar productos de tres categorías distintas: artículos de natación, mobiliario para oficina y regalos personalizados.</p>
+
+                <h3>Objetivos del Sistema</h3>
+                <p>Crear una experiencia de compra unificada, intuitiva y moderna que permita a los usuarios navegar fácilmente entre diferentes categorías de productos, gestionar su carrito de compras y completar transacciones de forma segura.</p>
+
+                <h3>Funcionalidades Principales</h3>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>🛍️ Carrito Unificado</h4>
+                        <p>Sistema de carrito de compras que permite agregar productos de las 3 tiendas en una sola compra.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>🌙 Dark Mode</h4>
+                        <p>Modo oscuro con persistencia que recuerda la preferencia del usuario.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>⚡ Ofertas Flash</h4>
+                        <p>Sistema de ofertas con temporizador en tiempo real para crear urgencia.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>🔍 Búsqueda Inteligente</h4>
+                        <p>Buscador en tiempo real con filtros por categoría.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>🔐 Autenticación</h4>
+                        <p>Sistema de login y registro para usuarios.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>✅ Checkout Completo</h4>
+                        <p>Proceso de pago con validación completa de formularios.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>📱 Responsive Design</h4>
+                        <p>Optimizado para dispositivos móviles, tablets y desktop.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>🎨 Interfaz Moderna</h4>
+                        <p>Diseño limpio y profesional con animaciones suaves.</p>
+                    </div>
+                </div>
+
+                <h3>🏗️ Arquitectura Técnica</h3>
+                <p><strong>Frontend:</strong> React 19.1.1</p>
+                <p><strong>Gestión de Estado:</strong> Context API (ThemeContext, AuthContext, CartContext)</p>
+                <p><strong>Estilos:</strong> CSS moderno con variables y animaciones</p>
+                <p><strong>Deployment:</strong> GitHub Pages</p>
+                <p><strong>Control de Versiones:</strong> Git & GitHub</p>
+
+                <h3>🎨 Diseño Visual</h3>
+                <p><strong>Paleta de Colores Principal:</strong></p>
+                <ul style="margin-left: 40px; margin-bottom: 20px;">
+                    <li>Verde Corporativo: #2d5016</li>
+                    <li>Verde Claro: #4a7c2c</li>
+                    <li>Acentos y gradientes complementarios</li>
+                </ul>
+
+                <h3>📊 Catálogo de Productos</h3>
+                <p>El sistema cuenta con 12 productos distribuidos en 3 categorías:</p>
+                <ul style="margin-left: 40px; margin-bottom: 20px;">
+                    <li><strong>Natación:</strong> Goggles profesionales, trajes de baño de competencia, aletas de entrenamiento, gorros de silicona</li>
+                    <li><strong>Oficina:</strong> Escritorios ergonómicos, sillas ejecutivas, organizadores de escritorio, lámparas LED</li>
+                    <li><strong>Regalos:</strong> Tazas personalizadas, libretas con grabado, llaveros personalizados, cojines decorativos</li>
+                </ul>
+
+                <div style="text-align: center; margin: 30px 0;">
+                    <a href="https://any-lu10.github.io/INTEGRADORA-NOVIEMBRE/" class="btn" target="_blank">🌐 Visitar Sitio Web</a>
+                    <a href="https://github.com/Any-lu10/INTEGRADORA-NOVIEMBRE" class="btn btn-secondary" target="_blank">📂 Ver en GitHub</a>
+                </div>
+            </section>
+
+            <!-- SECCIÓN 3: CÓDIGO FUENTE -->
+            <section id="codigo">
+                <h2>💻 Código Fuente</h2>
+                
+                <h3>Repositorio en GitHub</h3>
+                <p>El código fuente completo del proyecto está disponible en GitHub con todas las versiones y commits documentados.</p>
+                
+                <p><strong>Repositorio Principal:</strong></p>
+                <p>🔗 <a href="https://github.com/Any-lu10/INTEGRADORA-NOVIEMBRE" target="_blank">https://github.com/Any-lu10/INTEGRADORA-NOVIEMBRE</a></p>
+
+                <p><strong>Sitio Web en Producción:</strong></p>
+                <p>🌐 <a href="https://any-lu10.github.io/INTEGRADORA-NOVIEMBRE/" target="_blank">https://any-lu10.github.io/INTEGRADORA-NOVIEMBRE/</a></p>
+
+                <h3>📁 Estructura del Proyecto</h3>
+                <pre style="background: white; padding: 20px; border-radius: 10px; overflow-x: auto;">
+INTEGRADORA-NOVIEMBRE/
+├── public/
+│   ├── index.html
+│   └── assets/
+│   ├── images/...
+├── src/
+│   ├── components/
+│   │   ├── Auth/...
+│   │   ├── Cart/...
+│   │   ├── Checkout/...
+│   │   ├── CheckoutModal/...
+│   │   ├── Darkmode/...
+│   │   ├── FlashDeals/...
+│   │   └── Header/...
+│   │   ├── Home/...
+│   │   ├── ProductGallery/...
+│   ├── context/
+│   │   ├── ThemeContext.jsx
+│   │   ├── AuthContext.jsx
+│   │   └── CartContext.jsx
+│   ├── data/
+│   │   ├── product.js
+│   ├── Styles/...
+│   ├── App.css
+│   └── index.js
+│   ├── App.js
+│   └── index.css
+├── .gitignore
+├── App.css
+├── App.css
+├── App.js
+├── package-locke.json
+├── package.json
+└── README.md
+                </pre>
+
+                <h3>🛠️ Tecnologías Utilizadas</h3>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Tecnología</th>
+                            <th>Versión</th>
+                            <th>Uso</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>React</td>
+                            <td>19.1.1</td>
+                            <td>Framework principal</td>
+                        </tr>
+                        <tr>
+                            <td>Context API</td>
+                            <td>Built-in</td>
+                            <td>Gestión de estado global</td>
+                        </tr>
+                        <tr>
+                            <td>CSS3</td>
+                            <td>-</td>
+                            <td>Estilos y animaciones</td>
+                        </tr>
+                        <tr>
+                            <td>GitHub Pages</td>
+                            <td>-</td>
+                            <td>Hosting y deployment</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>📥 Descargar Código Fuente</h3>
+                <p>Puedes descargar el código fuente completo en formato ZIP desde GitHub o clonarlo directamente:</p>
+                
+                <div style="background: white; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                    <p><strong>Clonar repositorio:</strong></p>
+                    <code style="background: #f0f0f0; padding: 10px; display: block; border-radius: 5px;">
+                        git clone https://github.com/Any-lu10/INTEGRADORA-NOVIEMBRE.git
+                    </code>
+                </div>
+
+                <div style="text-align: center; margin: 30px 0;">
+                    <a href="https://github.com/Any-lu10/INTEGRADORA-NOVIEMBRE/archive/refs/heads/main.zip" class="btn" target="_blank">⬇️ Descargar ZIP</a>
+                    <a href="https://github.com/Any-lu10/INTEGRADORA-NOVIEMBRE" class="btn btn-secondary" target="_blank">📂 Ver en GitHub</a>
+                </div>
+            </section>
+
+            <!-- SECCIÓN 4: MODIFICACIONES REALIZADAS -->
+            <section id="modificaciones">
+                <h2>🔧 Reporte de Modificaciones Realizadas</h2>
+                
+                <h3>Resumen</h3>
+                <p>Durante el desarrollo del proyecto INTEGRADORA SHOP se realizaron múltiples iteraciones y modificaciones para mejorar la funcionalidad, usabilidad y calidad del producto final. Este reporte documenta los cambios más significativos implementados.</p>
+
+                <h3>Evolución del Product Backlog</h3>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Versión</th>
+                            <th>PBIs</th>
+                            <th>Puntos</th>
+                            <th>Cambios Principales</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Versión 1</td>
+                            <td>8</td>
+                            <td>65</td>
+                            <td>Backlog inicial</td>
+                        </tr>
+                        <tr>
+                            <td>Versión 2</td>
+                            <td>11</td>
+                            <td>71</td>
+                            <td>Agregado Dark Mode y Ofertas Flash</td>
+                        </tr>
+                        <tr>
+                            <td>Versión 3</td>
+                            <td>12</td>
+                            <td>84</td>
+                            <td>Mejoras de usabilidad</td>
+                        </tr>
+                        <tr>
+                            <td>Final</td>
+                            <td>12</td>
+                            <td>100</td>
+                            <td>Completado al 100%</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Cambio Mayor: Rediseño Completo (Tarea 6)</h3>
+                <div style="background: #fff3cd; padding: 20px; border-radius: 10px; border-left: 5px solid #ffc107; margin: 20px 0;">
+                    <h4>Rebrand Completo</h4>
+                    <p><strong>Motivación:</strong> Mejorar la cohesión de marca y profesionalismo del sitio.</p>
+                    <p><strong>Cambios implementados:</strong></p>
+                    <ul style="margin-left: 20px;">
+                        <li>✔Cambio de tres nombres en inglés a "INTEGRADORA SHOP" en español</li>
+                        <li>✔Nueva paleta de colores verde corporativo (#2d5016)</li>
+                        <li>✔Rediseño completo de la interfaz</li>
+                        <li>✔Nuevo logo y branding</li>
+                        <li>✔Migración a nuevo repositorio</li>
+                    </ul>
+                    <p><strong>Impacto:</strong> Mejora significativa en la percepción profesional del sitio y mejor experiencia de usuario.</p>
+                </div>
+
+                <h3>Correcciones del Sprint 5 (Tarea 8)</h3>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h4>1. Carrito de Compras</h4>
+                        <p><strong>Problema:</strong> Las cantidades no se actualizaban correctamente al modificar productos.</p>
+                        <p><strong>Solución:</strong> Refactorización completa del CartContext con lógica mejorada de actualización.</p>
+                        <p><strong>Resultado:</strong> Actualización instantánea y cálculo correcto de totales.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4>2. Validación de Checkout</h4>
+                        <p><strong>Problema:</strong> Faltaba validación de campos en el formulario de pago.</p>
+                        <p><strong>Solución:</strong> Implementación de validación completa (email, teléfono, campos requeridos).</p>
+                        <p><strong>Resultado:</strong> Prevención de envíos con datos incompletos y mejor UX.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4>3. Responsive Design</h4>
+                        <p><strong>Problema:</strong> Elementos desalineados en dispositivos móviles.</p>
+                        <p><strong>Solución:</strong> Ajuste de breakpoints y sistema de grid optimizado.</p>
+                        <p><strong>Resultado:</strong> Experiencia uniforme en todos los dispositivos.</p>
+                    </div>
+                </div>
+
+                <h3>Comparativa: Antes vs Después</h3>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Aspecto</th>
+                            <th>ANTES</th>
+                            <th>DESPUÉS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Branding</td>
+                            <td>3 nombres en inglés</td>
+                            <td>INTEGRADORA SHOP unificado</td>
+                        </tr>
+                        <tr>
+                            <td>Paleta de Colores</td>
+                            <td>Colores genéricos</td>
+                            <td>Verde corporativo #2d5016</td>
+                        </tr>
+                        <tr>
+                            <td>Carrito</td>
+                            <td>Bugs en actualización</td>
+                            <td>Funcional al 100%</td>
+                        </tr>
+                        <tr>
+                            <td>Checkout</td>
+                            <td>Sin validación</td>
+                            <td>Validación completa</td>
+                        </tr>
+                        <tr>
+                            <td>Responsive</td>
+                            <td>Problemas en móvil</td>
+                            <td>Optimizado para todos los dispositivos</td>
+                        </tr>
+                        <tr>
+                            <td>Funcionalidades</td>
+                            <td>8 básicas</td>
+                            <td>14 completas</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Nuevas Funcionalidades Agregadas</h3>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>🌙 Dark Mode</h4>
+                        <p>Agregado en Tarea 4. Modo oscuro con toggle y persistencia local.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>⚡ Ofertas Flash</h4>
+                        <p>Agregado en Tarea 4. Sistema de ofertas con temporizador en tiempo real.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>🔍 Búsqueda Avanzada</h4>
+                        <p>Mejorado en Sprint 3. Filtros por categoría y búsqueda en tiempo real.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>✅ Validación</h4>
+                        <p>Agregado en Sprint 5. Validación completa de formularios.</p>
+                    </div>
+                </div>
+
+                <h3>Impedimentos Resueltos</h3>
+                <ul style="margin-left: 40px; margin-bottom: 20px;">
+                    <li><span class="checkmark">✓</span> Incompatibilidad con versiones de Node.js</li>
+                    <li><span class="checkmark">✓</span> Bugs en rendering móvil</li>
+                    <li><span class="checkmark">✓</span> Error CORS en API mock</li>
+                    <li><span class="checkmark">✓</span> Retraso por corte de internet</li>
+                    <li><span class="checkmark">✓</span> Issues con estados en React</li>
+                    <li><span class="checkmark">✓</span> Problemas de actualización del carrito</li>
+                    <li><span class="checkmark">✓</span> Falta de validación en formularios</li>
+                    <li><span class="checkmark">✓</span> Desalineación en responsive</li>
+                </ul>
+
+                <h3>Lecciones Aprendidas</h3>
+                <div style="background: white; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                    <p><strong>1. Planificación:</strong> El backlog inicial creció 54% (de 65 a 100 puntos) por refinamiento continuo. Es importante ser flexible y adaptarse a nuevos requerimientos.</p>
+                    
+                    <p><strong>2. Roles SCRUM:</strong> La rotación de roles ayudó a entender diferentes perspectivas del desarrollo.</p>
+                    
+                    <p><strong>3. Reuniones:</strong> Las daily scrums de 15 minutos fueron efectivas para detección temprana de problemas.</p>
+                    
+                    <p><strong>4. Rebranding:</strong> El cambio de identidad a mitad del proyecto mejoró significativamente la cohesión del producto.</p>
+                    
+                    <p><strong>5. Testing:</strong> El Sprint 5 adicional para correcciones elevó la calidad del producto final.</p>
+                </div>
+
+                <h3>Métricas Finales</h3>
+                <div class="stats">
+                    <div class="stat-box">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Sprints Completados</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">8</div>
+                        <div class="stat-label">Bugs Corregidos</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">14</div>
+                        <div class="stat-label">Funcionalidades</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">100</div>
+                        <div class="stat-label">Puntos Story</div>
+                    </div>
+                </div>
+
+                <!-- ENLACE DE GOOGLE DRIVE #2 -->
+                <div class="drive-link-box">
+                    <div class="instruction-box">
+                        <h4>DOCUMENTO INTEGRADOR:</h4>
+                        <p><strong>1.</strong> A continuación se presenta el link al documento "Producto integgarodr. El final del proceso", donde explico de manera general y sencilla lo que se hizo en cada actividad a lo largo del curso.</p>
+                        <p><strong>2.</strong> También puedes checar por separado actividad por actividad en la sección "📋 Actividades Realizadas en el Curso"</p>
+                    </div>
+                    <a href="https://drive.google.com/file/d/PEGA_AQUI_EL_ID_DE_TU_ARCHIVO/view?usp=sharing" class="btn btn-drive" target="_blank">📄 Ver Documento Completo de Actividades</a>
+                </div>
+            </section>
+                        
+                        
+            </section>
+        </div>
+
+        <footer>
+            <p><strong>INTEGRADORA SHOP</strong></p>
+            <p>Desarrollado por Ana Luisa Martínez Rentería</p>
+            <p>📧 <a href="mailto:anlu1094@gmail.com">anlu1094@gmail.com</a></p>
+            <p>🔗 <a href="https://github.com/Any-lu10" target="_blank">GitHub: @Any-lu10</a></p>
+            <p style="margin-top: 20px; opacity: 0.8;">© 2024 - Proyecto Final del Curso</p>
+        </footer>
+    </div>
+
+    <!-- Botón flotante para subir -->
+    <div class="scroll-to-top" id="scrollToTop" onclick="scrollToTop()">
+        ↑
+    </div>
+
+    <script>
+        // Función para mostrar secciones
+        function showSection(sectionId) {
+            // Ocultar todas las secciones
+            const sections = document.querySelectorAll('section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Remover clase active de todos los botones
+            const buttons = document.querySelectorAll('nav button');
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Mostrar la sección seleccionada
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Agregar clase active al botón correspondiente
+            document.getElementById('btn-' + sectionId).classList.add('active');
+
+            // Scroll suave al inicio del contenido
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Función para subir al inicio
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Mostrar/ocultar botón de subir según scroll
+        window.addEventListener('scroll', function() {
+            const scrollBtn = document.getElementById('scrollToTop');
+            if (window.pageYOffset > 300) {
+                scrollBtn.classList.add('visible');
+            } else {
+                scrollBtn.classList.remove('visible');
+            }
+        });
+
+        // Activar la primera sección al cargar
+        window.addEventListener('load', function() {
+            document.getElementById('btn-actividades').classList.add('active');
+        });
+    </script>
+</body>
+</html>
