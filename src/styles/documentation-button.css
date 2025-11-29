@@ -1,0 +1,48 @@
+/* Botón flotante de documentación */
+.btn-documentacion {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: linear-gradient(135deg, #2d5016 0%, #4a7c2c 100%);
+    color: white;
+    padding: 15px 25px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+    box-shadow: 0 5px 20px rgba(45, 80, 22, 0.4);
+    transition: all 0.3s ease;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    animation: pulse 2s infinite;
+    cursor: pointer;
+}
+
+.btn-documentacion:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(45, 80, 22, 0.6);
+    background: linear-gradient(135deg, #4a7c2c 0%, #2d5016 100%);
+    color: white;
+    text-decoration: none;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+/* Responsive para móviles */
+@media (max-width: 768px) {
+    .btn-documentacion {
+        bottom: 20px;
+        right: 20px;
+        padding: 12px 20px;
+        font-size: 14px;
+    }
+}

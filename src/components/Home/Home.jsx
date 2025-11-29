@@ -89,6 +89,15 @@ function Home() {
           <p>&copy; 2024 INTEGRADORA SHOP. Todos los derechos reservados.</p>
         </div>
       </footer>
+
+      {/* Botón de Documentación */}
+<button 
+  onClick={() => window.open(`${process.env.PUBLIC_URL}/documentacion.html`, '_blank')}
+  className="btn-documentacion" 
+  title="Ver Documentación del Proyecto"
+>
+  📚 Documentación
+</button>
     </div>
   );
 }
